@@ -1,0 +1,5 @@
+---
+# defaults file for logstash
+#
+data_path: /var/lib/logstash
+logs_path: /var/log/logstash
