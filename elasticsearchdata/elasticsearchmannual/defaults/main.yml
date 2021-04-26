@@ -1,0 +1,15 @@
+---
+# defaults file for elasticsearchmanual
+cluster_name: hicloud
+path_data: /var/lib/elasticsearch
+path_logs: /var/log/elasticsearch
+network_host: 0.0.0.0
+http_port: 9200
+discovery_seed_hosts: ["54.177.94.156", "54.219.169.45"]
+cluster_initial_master_nodes: ["54.177.94.156"]
+node_data: false 
+node_master: true
+bootstrap_memory_lock: false
+min_mem: Xms200m
+max_mem: Xmx200m
+
