@@ -1,0 +1,42 @@
+---
+# tasks file for logstash
+#
+- 
+  name: "Adding Elk Repo"
+  shell:
+    cmd: "wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -"
+
+- 
+  name: "artifacts"
+  shell:
+    cmd: "echo 'deb https://artifacts.elastic.co/packages/7.x/apt stable main' | sudo tee /etc/apt/sources.list.d/logstash-2.2.x.list"
+
+- name: Update apt-get repo and cache
+  apt: 
+     update_cache: yes 
+     force_apt_get: yes 
+     
+- 
+  name: "Adding the java jdk"
+  package:
+       name: "openjdk-8-jdk"
+       state: present
+
+- 
+  name: "Installing Logstash"
+  package: 
+      name: logstash
+      state: present
+      # enabled: yes
+
+-
+  name: "Copying update elasticsearch.yml file"
+  template:
+          src: logstash.yml
+          dest: /etc/logstash/logstash.yml
+-
+  name: "Starting Logstash Service"
+  service:
+          name: logstash
+          state: restarted
+          enabled: yes
