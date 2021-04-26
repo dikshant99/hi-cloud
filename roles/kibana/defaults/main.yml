@@ -1,0 +1,7 @@
+---
+# defaults file for kibana
+#
+server_port: 5601
+server_hosts: 0.0.0.0
+server_name: hi-cloud-kibana
+elasticsearch_hosts: "http://{{ groups['tag_node_master'][0]  }}:9200" 
