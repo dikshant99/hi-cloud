@@ -1,0 +1,46 @@
+---
+
+- 
+  name: "Adding Elk Repo"
+  shell:
+    cmd: "wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -"
+
+- 
+  name: "artifacts"
+  shell:
+    cmd: "echo 'deb https://artifacts.elastic.co/packages/7.x/apt stable main' | sudo tee /etc/apt/sources.list.d/elastic-7.x.list"
+
+-
+  name: "updates"
+  shell:
+    cmd: apt-get update
+
+- 
+  name: "Adding the java jdk"
+  package:
+       name: "openjdk-8-jdk"
+       state: present
+- 
+  name: "installing elastic search"
+  package:
+       name: "elasticsearch"
+       state: present
+- 
+  name: "copying es yml file"
+  template:
+          src: elasticsearch.yml
+          dest: /etc/elasticsearch/elasticsearch.yml
+
+- 
+  name: "copying jvm yml file"
+  template:
+          src: jvm.options
+          dest: /etc/elasticsearch/jvm.options
+
+-
+  name: "starting service elastic search "
+  service:
+     name: elasticsearch
+     state: restarted
+     enabled: yes
+
