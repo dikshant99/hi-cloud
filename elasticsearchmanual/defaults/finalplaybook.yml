@@ -1,0 +1,37 @@
+- hosts: tag_node_master #18.144.86.192
+  remote_user: ubuntu
+  become: True
+  become_user: root
+  become_method: sudo
+  vars:
+    - node_master: true
+    - node_data: false
+  roles:
+    - role: elasticsearchmanual
+
+- hosts: tag_node_data  #54.67.123.218
+  remote_user: ubuntu
+  become: True
+  become_user: root
+  become_method: sudo
+  vars:
+    - node_master: false
+    - node_data: true
+  roles:
+    - role: elasticsearchmanual
+
+- hosts: tag_node1_logstash  #54.67.123.218
+  remote_user: ubuntu
+  become: True
+  become_user: root
+  become_method: sudo
+  roles:
+    - role: logstash
+
+- hosts: tag_node2_kibana  #54.67.123.218
+  remote_user: ubuntu
+  become: True
+  become_user: root
+  become_method: sudo
+  roles:
+    - role: kibana
