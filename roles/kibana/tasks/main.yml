@@ -1,0 +1,49 @@
+---
+
+- 
+  name: "Adding Elk Repo"
+  shell:
+    cmd: "wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -"   
+
+- 
+  name: "artifacts"  
+  shell:
+    cmd: "echo 'deb https://artifacts.elastic.co/packages/7.x/apt stable main' | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list"
+
+-
+  name: "updates"
+  shell:
+    cmd: apt-get update
+
+- 
+  name: "Adding the java jdk"
+  package:
+       name: "openjdk-8-jdk"
+       state: present
+
+- 
+  name: "Installing Kibana"
+  #shell:
+  #     cmd: sudo apt-get install kibana -y
+  apt: 
+      name: kibana
+      state: present
+      # update_cache: yes
+      #force_apt_get: yes
+- 
+  name: "Copying Kibana yml File"
+  template: 
+    dest: /etc/kibana/kibana.yml
+    src: kibana.yml
+
+-
+  name: "opening ports"
+  shell:
+    cmd: ufw allow 5601
+
+- 
+  name: "Starting Kibana Service"
+  service: 
+    enabled: yes
+    name: kibana
+    state: restarted
